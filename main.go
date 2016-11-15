@@ -1,8 +1,12 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+	"os"
+)
 
 func main() {
 	http.Handle("/", http.FileServer(http.Dir("./views")))
-	http.ListenAndServe(":3000", nil)
+	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), nil)
 }
