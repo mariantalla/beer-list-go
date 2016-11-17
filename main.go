@@ -8,22 +8,31 @@ import (
 	"os"
 )
 
+type Env struct {
+	GATag string
+	InstanceIndex string
+}
+
 func main() {
-	http.HandleFunc("/", Index) // http.Handle("/", http.FileServer(http.Dir("./views")))
+	http.HandleFunc("/", Index)
 	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), nil)
 }
 
 func Index(w http.ResponseWriter, req *http.Request) {
-	render(w, "views/index.html")
+	env := Env{
+		GATag: os.Getenv("GA_TAG"),
+		InstanceIndex: os.Getenv("INSTANCE_INDEX"),
+	}
+	render(w, "views/index.html", env)
 }
 
-func render(w http.ResponseWriter, tmpl string) {
+func render(w http.ResponseWriter, tmpl string, env Env) {
 	tmpl = fmt.Sprintf("%s", tmpl)
 	t, err := template.ParseFiles(tmpl)
 	if err != nil {
 		log.Print("template parsing error: ", err)
 	}
-	err = t.Execute(w, "")
+	err = t.Execute(w, env)
 	if err != nil {
 		log.Print("template executing error: ", err)
 	}

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <script type="text/javascript">
       var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', '{{Getenv("GA_TAG")}}');
+      _gaq.push(['_setAccount', "{{ .GATag }}"]);
       _gaq.push(['_trackPageview']);
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -26,6 +26,7 @@
       <tr><td>Bavaria</td><td>Hefeweizen</td><tr>
       <tr><td>Leipzig</td><td>Gose Beer</td><tr>
     </table>
+     <div>You have been served by server {{ .InstanceIndex }}></div>
     </div>
   </body>
 </html>
