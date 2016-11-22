@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/cloudfoundry-community/go-cfenv"
 	_ "github.com/go-sql-driver/mysql"
@@ -31,8 +30,14 @@ func main() {
 
 	credentials := mysqlService.Credentials
 
-	fmt.Println(strings.Split(credentials["uri"].(string), "//")[1])
-	db, err = sql.Open("mysql", "CLQnXGd1Yoe72dME:JPVgiVLipd5FtFcq@tcp(mysql-broker.local.pcfdev.io:3306)/cf_6a53c48b_291b_405f_86e8_cbb21352f660")
+	dns := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
+		credentials["username"].(string),
+		credentials["password"].(string),
+		credentials["hostname"].(string),
+		int(credentials["port"].(float64)),
+		credentials["name"].(string),
+	)
+	db, err = sql.Open("mysql", dns)
 	check(err)
 	defer db.Close()
 
