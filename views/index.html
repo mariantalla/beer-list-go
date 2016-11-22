@@ -25,8 +25,11 @@
       <tr><td>Düsseldorf</td><td>Altbier</td><tr>
       <tr><td>Bavaria</td><td>Hefeweizen</td><tr>
       <tr><td>Leipzig</td><td>Gose Beer</td><tr>
+        {{ range $place, $beer := .Beers }}
+          <tr><td>{{ $place }}</td><td>{{ $beer }}</td></tr>
+        {{ end }}
     </table>
-     <div>You have been served by server {{ .InstanceIndex }}></div>
+     <div>You have been served by server {{ .InstanceIndex }}</div>
     </div>
   </body>
 </html>
