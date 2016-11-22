@@ -39,6 +39,7 @@ func main() {
 	_, err = db.Exec("create table if not exists beers (id integer PRIMARY KEY AUTO_INCREMENT, region varchar(255) NOT NULL, brand varchar(255) NOT NULL)")
 	check(err)
 
+	http.Handle("/views/", http.StripPrefix("/views/", http.FileServer(http.Dir("views"))))
 	http.HandleFunc("/", Index)
 	http.HandleFunc("/create", Create)
 	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), nil)

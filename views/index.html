@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="views/css/bootstrap.min.css">
+    <link rel="stylesheet" href="views/css/bootstrap-theme.min.css">
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', "{{ .GATag }}"]);
@@ -17,7 +17,7 @@
   <body>
     <div class="container">
       <div class="row text-center">
-      <img src="images/flat_glass_of_beer_by_superawesomevectors-d8kdgg9.jpg" width="250">
+      <img src="views/images/flat_glass_of_beer_by_superawesomevectors-d8kdgg9.jpg" width="250">
     </div>
     <table class="table">
       <tr><th>Region</th><th>Favourite Beer Type</th><tr>
@@ -42,7 +42,7 @@
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
-      
+
      <div>You have been served by server {{ .InstanceIndex }}</div>
     </div>
   </body>
