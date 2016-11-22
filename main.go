@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/cloudfoundry-community/go-cfenv"
+	cfenv "github.com/cloudfoundry-community/go-cfenv"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -19,11 +19,17 @@ type Env struct {
 }
 
 var (
-	env *cfenv.App
-	db  *sql.DB
+	env  *cfenv.App
+	db   *sql.DB
+	file *os.File
+	err  error
 )
 
 func main() {
+	file, err = os.Create("troublesome-file")
+	check(err)
+	defer file.Close()
+
 	env, _ = cfenv.Current()
 	mysqlService, err := env.Services.WithName("db")
 	check(err)
@@ -51,6 +57,7 @@ func main() {
 }
 
 func Index(w http.ResponseWriter, req *http.Request) {
+	file.WriteString("Someone requested beers!\n")
 	beers := make(map[string]string)
 
 	rows, err := db.Query("select region, brand from beers")
@@ -72,6 +79,7 @@ func Index(w http.ResponseWriter, req *http.Request) {
 }
 
 func Create(w http.ResponseWriter, req *http.Request) {
+	file.WriteString("Someone added a new beer!\n")
 	check(req.ParseForm())
 	brand := req.PostForm.Get("brand")
 	region := req.PostForm.Get("region")
