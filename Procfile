@@ -1,1 +1,1 @@
-web: beer-list
+web: beer-list-go
