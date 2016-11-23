@@ -25,7 +25,24 @@
       <tr><td>Düsseldorf</td><td>Altbier</td><tr>
       <tr><td>Bavaria</td><td>Hefeweizen</td><tr>
       <tr><td>Leipzig</td><td>Gose Beer</td><tr>
+        {{ range $place, $beer := .Beers }}
+          <tr><td>{{ $place }}</td><td>{{ $beer }}</td></tr>
+        {{ end }}
     </table>
+
+    <h4>Why not add a new beer?</h4>
+      <form method="post" action="/create" class="form-inline">
+        <div class="form-group">
+          <label for="region">Region</label>
+          <input type="text" class="form-control" name="region" name="region"><br>
+        </div>
+        <div class="form-group">
+          <label for="brand">Brand</label>
+          <input type="text" class="form-control" id="brand" name="brand">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
     <div>You have been served by server {{ .InstanceIndex }}</div>
     </div>
   </body>
