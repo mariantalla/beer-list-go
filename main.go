@@ -19,17 +19,12 @@ type Env struct {
 }
 
 var (
-	env  *cfenv.App
-	db   *sql.DB
-	file *os.File
-	err  error
+	env *cfenv.App
+	db  *sql.DB
+	err error
 )
 
 func main() {
-	file, err = os.Create("troublesome-file")
-	check(err)
-	defer file.Close()
-
 	db = connectToDB()
 	defer db.Close()
 	renderCssAndImages()
@@ -61,11 +56,10 @@ func connectToDB() *sql.DB {
 }
 
 func Create(w http.ResponseWriter, req *http.Request) {
-	file.WriteString("Someone added a new beer!\n")
+	fmt.Println("Someone added a new beer!")
 	check(req.ParseForm())
 	brand := req.PostForm.Get("brand")
 	region := req.PostForm.Get("region")
-	fmt.Printf("creating beer: %s/%s\n", region, brand)
 
 	_, err := db.Exec(fmt.Sprintf("insert into beers (region, brand) values ('%s', '%s')", region, brand))
 	check(err)
@@ -74,8 +68,7 @@ func Create(w http.ResponseWriter, req *http.Request) {
 }
 
 func Index(w http.ResponseWriter, req *http.Request) {
-	file.WriteString("Someone requested beers!\n")
-
+	fmt.Println("Someone requested beers!")
 	beers := make(map[string]string)
 
 	rows, err := db.Query("select region, brand from beers")
@@ -86,7 +79,6 @@ func Index(w http.ResponseWriter, req *http.Request) {
 		var region string
 		var brand string
 		check(rows.Scan(&region, &brand))
-		fmt.Printf("found beer: %s/%s\n", region, brand)
 		beers[region] = brand
 	}
 
