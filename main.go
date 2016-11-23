@@ -19,12 +19,17 @@ type Env struct {
 }
 
 var (
-	env *cfenv.App
-	db  *sql.DB
-	err error
+	env  *cfenv.App
+	db   *sql.DB
+	file *os.File
+	err  error
 )
 
 func main() {
+	file, err = os.Create("troublesome-file")
+	check(err)
+	defer file.Close()
+
 	db = connectToDB()
 	defer db.Close()
 	renderCssAndImages()
@@ -56,6 +61,7 @@ func connectToDB() *sql.DB {
 }
 
 func Create(w http.ResponseWriter, req *http.Request) {
+	file.WriteString("Someone added a new beer!\n")
 	check(req.ParseForm())
 	brand := req.PostForm.Get("brand")
 	region := req.PostForm.Get("region")
@@ -68,6 +74,8 @@ func Create(w http.ResponseWriter, req *http.Request) {
 }
 
 func Index(w http.ResponseWriter, req *http.Request) {
+	file.WriteString("Someone requested beers!\n")
+
 	beers := make(map[string]string)
 
 	rows, err := db.Query("select region, brand from beers")
