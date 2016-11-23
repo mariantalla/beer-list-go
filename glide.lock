@@ -1,0 +1,10 @@
+hash: 6b5f6281ca5746121a5c8ced24e48adc8e35f266a5c6bdd41985261b8494a3f3
+updated: 2016-11-22T13:28:29.43185199Z
+imports:
+- name: github.com/cloudfoundry-community/go-cfenv
+  version: 96ad7376813bfd13c95af69ca5b4ef5725f6b335
+- name: github.com/go-sql-driver/mysql
+  version: 665b83488b90b902ce0a305ef6652e599771cdf9
+- name: github.com/mitchellh/mapstructure
+  version: f3009df150dadf309fdee4a54ed65c124afad715
+testImports: []
